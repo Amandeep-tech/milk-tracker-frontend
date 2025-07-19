@@ -22,9 +22,10 @@ export default function EditPage() {
       }
     }
     fetchEntry();
-  }, [params.id]);
+    // TODO: check if these dependencies are needed
+  }, [params.id, router]);
 
-  const handleSubmit = async (updatedData: any) => {
+  const handleSubmit = async (updatedData: { date: string; quantity: number; rate: number }) => {
     await updateEntry(params.id as string, updatedData);
     router.push('/');
   };
