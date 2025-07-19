@@ -2,15 +2,18 @@ import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-export default function MilkForm({ onSubmit, initialData = {} }: any) {
+export default function MilkForm({ onSubmit, initialData = { date: '', quantity: 0, rate: 0 } }: {
+  onSubmit: (data: { date: string; quantity: number; rate: number }) => void;
+  initialData: { date: string; quantity: number; rate: number };
+}) {
   const [date, setDate] = useState<Date | null>(initialData.date ? new Date(initialData.date) : new Date());
   const [quantity, setQuantity] = useState(initialData.quantity || '');
   const [rate, setRate] = useState(initialData.rate || '');
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (date) {
-      onSubmit({ date: date.toISOString().split('T')[0], quantity, rate });
+      onSubmit({ date: date.toISOString().split('T')[0], quantity: Number(quantity), rate: Number(rate) });
     }
   };
 
