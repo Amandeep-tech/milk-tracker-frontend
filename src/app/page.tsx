@@ -34,7 +34,7 @@ export default function HomePage() {
 
   return (
     <main className={`p-4 ${poppins.className}`}>
-      <h1 className={`text-xl font-bold mb-4`}>Milk Tracker 🥛</h1>
+      <h1 className={`text-xl font-bold mb-4`}>Milk Tracker 🥛🥛</h1>
       <Link href="/add" className="bg-blue-500 text-white px-4 py-2 rounded text-sm">Add Entry</Link>
       <div className="mt-4">
         <MilkTable entries={entries} onDelete={handleDelete} />
