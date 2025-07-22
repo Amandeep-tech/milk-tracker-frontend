@@ -1,5 +1,6 @@
 import { MilkEntry } from "@/types/apiResponseTypes";
-import Link from "next/link";
+import Button from "./basic/button";
+import { useRouter } from "next/navigation";
 
 export default function MilkTable({
   entries,
@@ -8,6 +9,7 @@ export default function MilkTable({
   entries: MilkEntry[];
   onDelete: (id: number) => void;
 }) {
+  const router = useRouter();
   return (
     <table className="w-full text-sm overflow-x-auto border-collapse border border-gray-300 rounded-md">
       <thead>
@@ -35,18 +37,8 @@ export default function MilkTable({
             <td className="p-2 border border-gray-300">{entry.total}</td>
             <td>
               <div className="flex items-center flex-col gap-2 p-4">
-                <Link
-                  href={`/edit/${entry.id}`}
-                  className="text-blue-600 border border-blue-600 rounded-md px-2 py-1"
-                >
-                  Edit
-                </Link>
-                <button
-                  onClick={() => onDelete(entry.id)}
-                  className="text-red-600 border border-red-600 rounded-md px-2 py-1"
-                >
-                  Delete
-                </button>
+                <Button variant="primary" size="md" onClick={() => router.push(`/edit/${entry.id}`)} text="Edit" />
+                <Button variant="danger" size="md" onClick={() => onDelete(entry.id)} text="Delete" />
               </div>
             </td>
           </tr>
