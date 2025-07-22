@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export default function MilkForm({ onSubmit, initialData = { date: '', quantity: 0, rate: 0 } }: {
-  onSubmit: (data: { date: string; quantity: number; rate: number }) => void;
+  onSubmit: (data: { date: number; quantity: number; rate: number }) => void;
   initialData: { date: string; quantity: number; rate: number };
 }) {
   const [date, setDate] = useState<Date | null>(initialData.date ? new Date(initialData.date) : new Date());
@@ -13,7 +13,8 @@ export default function MilkForm({ onSubmit, initialData = { date: '', quantity:
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (date) {
-      onSubmit({ date: date.toISOString().split('T')[0], quantity: Number(quantity), rate: Number(rate) });
+      const epochTimestamp = date.getTime();
+      onSubmit({ date: epochTimestamp, quantity: Number(quantity), rate: Number(rate) });
     }
   };
 
@@ -21,7 +22,11 @@ export default function MilkForm({ onSubmit, initialData = { date: '', quantity:
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label className="block mb-1">Date</label>
-        <DatePicker selected={date} onChange={(date: Date | null) => setDate(date)} className="w-full p-2 border rounded" />
+        <DatePicker 
+        className="w-full p-2 border rounded"
+        dateFormat={"dd/MM/yyyy"}
+        selected={date} 
+        onChange={(date: Date | null) => setDate(date)}  />
       </div>
       <div>
         <label className="block mb-1">Quantity</label>
