@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Button from './basic/button';
 
 export default function MilkForm({ onSubmit, initialData = { date: '', quantity: 0, rate: 0 } }: {
   onSubmit: (data: { date: number; quantity: number; rate: number }) => void;
@@ -46,9 +47,10 @@ export default function MilkForm({ onSubmit, initialData = { date: '', quantity:
           className="w-full p-2 border rounded"
         />
       </div>
-      <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">
+      {/* <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">
         Submit
-      </button>
+      </button> */}
+      <Button type="submit" text="Submit" variant="primary" size="lg" />
     </form>
   );
 }
