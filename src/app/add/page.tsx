@@ -7,7 +7,7 @@ export default function AddPage() {
   const router = useRouter();
 
   const handleSubmit = async (data: {
-    date: string;
+    date: number;
     quantity: number;
     rate: number;
   }) => {

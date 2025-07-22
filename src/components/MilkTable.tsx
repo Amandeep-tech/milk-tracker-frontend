@@ -22,8 +22,8 @@ export default function MilkTable({
       <tbody>
         {entries?.map((entry: MilkEntry) => (
           <tr key={entry.id} className="border-b min-h-[80px]">
-            {/* date should be in the format - 19 July 2025 */}
             <td className="p-2 border border-gray-300 text-nowrap">
+              {/* date is in epoch timestamp, convert it to form like - 22 July 2025 */}
               {new Date(entry.date).toLocaleDateString("en-GB", {
                 day: "numeric",
                 month: "long",

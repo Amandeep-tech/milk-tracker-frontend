@@ -13,7 +13,7 @@ export async function getEntryById(id: string) : Promise<GetEntryByIdResponse> {
   return await res.json();
 }
 
-export async function addEntry(entry: { date: string; quantity: number; rate: number }) {
+export async function addEntry(entry: { date: number; quantity: number; rate: number }) {
   const res = await fetch(BASE_URL + SUFFIX, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -22,7 +22,7 @@ export async function addEntry(entry: { date: string; quantity: number; rate: nu
   return await res.json();
 }
 
-export async function updateEntry(id: string, entry: { date: string; quantity: number; rate: number }) {
+export async function updateEntry(id: string, entry: { date: number; quantity: number; rate: number }) {
   const res = await fetch(`${BASE_URL}${SUFFIX}/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },

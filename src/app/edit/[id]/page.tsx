@@ -25,7 +25,7 @@ export default function EditPage() {
     // TODO: check if these dependencies are needed
   }, [params.id, router]);
 
-  const handleSubmit = async (updatedData: { date: string; quantity: number; rate: number }) => {
+  const handleSubmit = async (updatedData: { date: number; quantity: number; rate: number }) => {
     await updateEntry(params.id as string, updatedData);
     router.push('/');
   };
