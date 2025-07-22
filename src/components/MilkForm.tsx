@@ -3,10 +3,15 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Button from './basic/button';
 
-export default function MilkForm({ onSubmit, initialData = { date: '', quantity: 0, rate: 0 } }: {
+interface IMilkFormProps {
   onSubmit: (data: { date: number; quantity: number; rate: number }) => void;
   initialData: { date: string; quantity: number; rate: number };
-}) {
+  isLoading?: boolean;
+}
+
+export default function MilkForm(props: IMilkFormProps) {
+  const { onSubmit, initialData, isLoading } = props;
+
   const [date, setDate] = useState<Date | null>(initialData.date ? new Date(initialData.date) : new Date());
   const [quantity, setQuantity] = useState(initialData.quantity || '');
   const [rate, setRate] = useState(initialData.rate || '');
@@ -47,10 +52,15 @@ export default function MilkForm({ onSubmit, initialData = { date: '', quantity:
           className="w-full p-2 border rounded"
         />
       </div>
-      {/* <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">
-        Submit
-      </button> */}
-      <Button type="submit" text="Submit" variant="primary" size="lg" />
+      <Button 
+        type="submit" 
+        className='w-[6rem]' 
+        text="Submit" 
+        variant="primary" 
+        size="lg" 
+        loading={isLoading} 
+        disabled={isLoading || !date || !quantity || !rate}
+      />
     </form>
   );
 }

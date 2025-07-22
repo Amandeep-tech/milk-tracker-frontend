@@ -11,6 +11,7 @@ export default function EditPage() {
   const router = useRouter();
   const params = useParams();
   const [entry, setEntry] = useState<MilkEntry | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchEntry() {
@@ -26,8 +27,19 @@ export default function EditPage() {
   }, [params.id, router]);
 
   const handleSubmit = async (updatedData: { date: number; quantity: number; rate: number }) => {
-    await updateEntry(params.id as string, updatedData);
-    router.push('/');
+    try {
+      setIsLoading(true);
+      const resp = await updateEntry(params.id as string, updatedData);
+      if (resp?.error === 0) {
+        router.push('/');
+      } else {
+        alert(resp?.message);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -38,7 +50,7 @@ export default function EditPage() {
         </Link>
         <h1 className="text-xl font-bold">Edit Entry</h1>
       </div>
-      {entry && <MilkForm onSubmit={handleSubmit} initialData={entry} />}
+      {entry && <MilkForm onSubmit={handleSubmit} initialData={entry} isLoading={isLoading} />}
     </main>
   );
 }

@@ -4,9 +4,11 @@ import { useRouter } from "next/navigation";
 import { addEntry } from "@/lib/api";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { useState } from "react";
 
 export default function AddPage() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (data: {
     date: number;
@@ -14,6 +16,7 @@ export default function AddPage() {
     rate: number;
   }) => {
     try {
+      setIsLoading(true);
       const resp = await addEntry(data);
       if (resp?.error === 0) {
         router.push("/");
@@ -22,6 +25,8 @@ export default function AddPage() {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -36,6 +41,7 @@ export default function AddPage() {
       <MilkForm
         onSubmit={handleSubmit}
         initialData={{ date: "", quantity: 0, rate: 0 }}
+        isLoading={isLoading}
       />
     </main>
   );
