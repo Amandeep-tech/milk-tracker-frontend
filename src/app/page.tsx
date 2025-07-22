@@ -1,25 +1,34 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { getAllMilkEntries, deleteEntry } from '@/lib/api';
-import MilkTable from '@/components/MilkTable';
-import Link from 'next/link';
-import { MilkEntry } from '@/types/apiResponseTypes';
-import { Poppins } from 'next/font/google';
+"use client";
+import { useEffect, useState } from "react";
+import { getAllMilkEntries, deleteEntry } from "@/lib/api";
+import MilkTable from "@/components/MilkTable";
+import Link from "next/link";
+import { MilkEntry } from "@/types/apiResponseTypes";
+import { Poppins } from "next/font/google";
+import Shimmer from "@/components/basic/shimmer";
 
 const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
 export default function HomePage() {
   const [entries, setEntries] = useState<MilkEntry[]>([]);
+  const [milkEntriesLoading, setMilkEntriesLoading] = useState(false);
 
   const fetchData = async () => {
-    const data = await getAllMilkEntries();
-    if (data.error === 0 && data.data) {
-      setEntries(data.data);
-    } else {
-      setEntries([]);
+    try {
+      setMilkEntriesLoading(true);
+      const resp = await getAllMilkEntries();
+      if (resp?.error === 0 && resp?.data) {
+        setEntries(resp.data);
+      } else {
+        setEntries([]);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setMilkEntriesLoading(false);
     }
   };
 
@@ -35,9 +44,14 @@ export default function HomePage() {
   return (
     <main className={`p-4 ${poppins.className}`}>
       <h1 className={`text-xl font-bold mb-4`}>Milk Tracker 🥛🥛</h1>
-      <Link href="/add" className="bg-blue-500 text-white px-4 py-2 rounded text-sm">Add Entry</Link>
+      <Link
+        href="/add"
+        className="bg-blue-500 text-white px-4 py-2 rounded text-sm"
+      >
+        Add Entry
+      </Link>
       <div className="mt-4">
-        <MilkTable entries={entries} onDelete={handleDelete} />
+        <MilkTable entries={entries} onDelete={handleDelete} isLoading={milkEntriesLoading} />
       </div>
     </main>
   );
