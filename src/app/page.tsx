@@ -6,6 +6,8 @@ import Link from "next/link";
 import { MilkEntry } from "@/types/apiResponseTypes";
 import { Poppins } from "next/font/google";
 import Shimmer from "@/components/basic/shimmer";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -15,13 +17,23 @@ const poppins = Poppins({
 export default function HomePage() {
   const [entries, setEntries] = useState<MilkEntry[]>([]);
   const [milkEntriesLoading, setMilkEntriesLoading] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const fetchData = async () => {
     try {
       setMilkEntriesLoading(true);
-      const resp = await getAllMilkEntries();
+      const yearMonth = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}`;
+      const resp = await getAllMilkEntries(yearMonth);
       if (resp?.error === 0 && resp?.data) {
-        setEntries(resp.data);
+        // Filter entries for selected month and year
+        const filteredEntries = resp.data.filter((entry) => {
+          const entryDate = new Date(entry.date);
+          return (
+            entryDate.getMonth() === selectedDate.getMonth() &&
+            entryDate.getFullYear() === selectedDate.getFullYear()
+          );
+        });
+        setEntries(filteredEntries);
       } else {
         setEntries([]);
       }
@@ -34,7 +46,7 @@ export default function HomePage() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [selectedDate]); // Refetch when selected date changes
 
   const handleDelete = async (id: number) => {
     await deleteEntry(id.toString());
@@ -44,12 +56,24 @@ export default function HomePage() {
   return (
     <main className={`p-4 ${poppins.className}`}>
       <h1 className={`text-xl font-bold mb-4`}>Milk Tracker 🥛🥛</h1>
-      <Link
-        href="/add"
-        className="bg-blue-500 text-white px-4 py-2 rounded text-sm"
-      >
-        Add Entry
-      </Link>
+      <div className="flex items-center gap-4 mb-4">
+        <Link
+          href="/add"
+          className="bg-blue-500 text-white px-4 py-2 rounded text-sm"
+        >
+          Add Entry
+        </Link>
+      </div>
+      <div className="flex items-center gap-2">
+          <label className="text-sm font-medium">Month:</label>
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date: Date | null) => date && setSelectedDate(date)}
+            dateFormat="MMMM yyyy"
+            showMonthYearPicker
+            className="p-1 border rounded text-sm"
+          />
+        </div>
       <div className="mt-4">
         <MilkTable entries={entries} onDelete={handleDelete} isLoading={milkEntriesLoading} />
       </div>

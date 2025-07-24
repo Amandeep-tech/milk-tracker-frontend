@@ -3,8 +3,8 @@ import { GetAllMilkEntriesResponse, GetEntryByIdResponse } from "@/types/apiResp
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const SUFFIX = '/api/milk';
 
-export async function getAllMilkEntries() : Promise<GetAllMilkEntriesResponse> {
-  const res = await fetch(BASE_URL + SUFFIX);
+export async function getAllMilkEntries(yearMonth: string) : Promise<GetAllMilkEntriesResponse> {
+  const res = await fetch(BASE_URL + SUFFIX + `/entries/${yearMonth}`);
   return await res.json();
 }
 
