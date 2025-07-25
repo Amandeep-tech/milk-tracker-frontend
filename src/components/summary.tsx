@@ -74,6 +74,17 @@ const Summary = () => {
             </div>
           )}
         </div>
+				<div className="border-t border-gray-300 my-2"/>
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-row justify-between gap-2">
+            <p className="text-sm font-semibold">Total Quantity</p>
+            <p className="text-sm">{summary?.totalQuantity} Litres</p>
+          </div>
+          <div className="flex flex-row justify-between gap-2">
+            <p className="text-sm font-semibold">Total Amount</p>
+            <p className="text-sm">₹ {summary?.totalAmount}</p>
+          </div>
+        </div>
       </>
     );
   };

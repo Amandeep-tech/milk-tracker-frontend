@@ -72,8 +72,9 @@ export default function HomePage() {
           Add Entry
         </Link>
       </div>
-      <div className="flex items-center gap-2">
-        <label className="text-sm font-medium">Month:</label>
+      <Summary />
+      <div className="flex items-center justify-between flex-wrap gap-2 mt-4">
+        <label className="text-sm font-medium">Month :</label>
         <DatePicker
           selected={selectedDate}
           onChange={(date: Date | null) => date && setSelectedDate(date)}
@@ -82,7 +83,6 @@ export default function HomePage() {
           className="p-1 border rounded text-sm"
         />
       </div>
-      <Summary />
       <div className="mt-4 w-full overflow-x-auto max-w-full overflow-hidden">
         <MilkTable
           entries={entries}

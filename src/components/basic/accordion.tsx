@@ -18,7 +18,10 @@ const Accordion = (props: IAccordionProps) => {
   return (
     <div>
       <div
-        className="heading flex flex-row justify-between items-center cursor-pointer"
+        className={`heading ${openAcc ? 'border-b border-gray-300 pb-2': '' } 
+				flex flex-row justify-between items-center cursor-pointer
+				transition-all duration-300 ease-in-out
+				`}
         onClick={handleToggle}
       >
         <div className={`text-sm font-medium ${headingClassName}`}>
@@ -33,7 +36,13 @@ const Accordion = (props: IAccordionProps) => {
           />
         </div>
       </div>
-      {openAcc ? <div className="content">{content}</div> : null}
+      <div 
+        className={`transition-all duration-300 ease-in-out overflow-hidden ${
+          openAcc ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="content py-2">{content}</div>
+      </div>
     </div>
   );
 };

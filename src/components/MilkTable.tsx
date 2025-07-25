@@ -16,9 +16,9 @@ export default function MilkTable({
       <thead>
         <tr className="bg-gray-100">
           <th className="p-2 border border-gray-300 min-w-[100px]">Date</th>
-          <th className="p-2 border border-gray-300">Quantity</th>
-          <th className="p-2 border border-gray-300">Rate</th>
-          <th className="p-2 border border-gray-300">Total Amount</th>
+          <th className="p-2 border border-gray-300">Quantity (L)</th>
+          <th className="p-2 border border-gray-300">Rate (₹)</th>
+          <th className="p-2 border border-gray-300">Total Amount (₹)</th>
           <th className="p-2 border border-gray-300 min-w-[100px]">Edit</th>
           <th className="p-2 border border-gray-300 min-w-[100px]">Delete</th>
         </tr>
