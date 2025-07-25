@@ -37,7 +37,7 @@ const Summary = () => {
   const contentForSummary = () => {
     return (
       <>
-        <div className="flex items-center gap-2 mt-4">
+        <div className="flex items-center justify-between flex-wrap gap-2 mt-4">
           <label className="text-sm font-medium">Summary for :</label>
           <DatePicker
             selected={summaryDate}
@@ -62,7 +62,7 @@ const Summary = () => {
                     ([key, value]) => {
                       return (
                         <div key={key} className="flex flex-row gap-2">
-                          <p className="text-sm font-medium">{key}</p>
+                          <p className="text-sm font-semibold">{key}</p>
                           {" - "}
                           <p className="text-sm">{value}</p>
                         </div>
@@ -78,7 +78,7 @@ const Summary = () => {
     );
   };
   return (
-    <div className="summary-container border border-gray-300 rounded-md p-2 mt-4">
+    <div className="summary-container border border-gray-300 rounded-md p-2 mt-4 max-w-[20rem]">
       <Accordion
         open={false}
         heading="Month wise summary"

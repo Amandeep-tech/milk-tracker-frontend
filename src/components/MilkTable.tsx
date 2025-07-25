@@ -12,7 +12,7 @@ export default function MilkTable({
   isLoading?: boolean;
 }) {
   return (
-    <table className="w-full text-sm overflow-x-auto border-collapse border border-gray-300 rounded-md">
+    <table className="w-full text-sm border-collapse border border-gray-300 rounded-md">
       <thead>
         <tr className="bg-gray-100">
           <th className="p-2 border border-gray-300 min-w-[100px]">Date</th>

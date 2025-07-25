@@ -83,7 +83,7 @@ export default function HomePage() {
         />
       </div>
       <Summary />
-      <div className="mt-4">
+      <div className="mt-4 w-full overflow-x-auto max-w-full overflow-hidden">
         <MilkTable
           entries={entries}
           onDelete={handleDelete}
