@@ -1,13 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getAllMilkEntries, deleteEntry } from "@/lib/api";
+import {
+  getAllMilkEntries,
+  deleteEntry,
+} from "@/lib/api";
 import MilkTable from "@/components/MilkTable";
 import Link from "next/link";
 import { MilkEntry } from "@/types/apiResponseTypes";
 import { Poppins } from "next/font/google";
-import Shimmer from "@/components/basic/shimmer";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Summary from "@/components/summary";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -15,14 +18,19 @@ const poppins = Poppins({
 });
 
 export default function HomePage() {
-  const [entries, setEntries] = useState<MilkEntry[]>([]);
   const [milkEntriesLoading, setMilkEntriesLoading] = useState(false);
+
+  const [entries, setEntries] = useState<MilkEntry[]>([]);
+
+
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const fetchData = async () => {
     try {
       setMilkEntriesLoading(true);
-      const yearMonth = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}`;
+      const yearMonth = `${selectedDate.getFullYear()}-${String(
+        selectedDate.getMonth() + 1
+      ).padStart(2, "0")}`;
       const resp = await getAllMilkEntries(yearMonth);
       if (resp?.error === 0 && resp?.data) {
         // Filter entries for selected month and year
@@ -65,17 +73,22 @@ export default function HomePage() {
         </Link>
       </div>
       <div className="flex items-center gap-2">
-          <label className="text-sm font-medium">Month:</label>
-          <DatePicker
-            selected={selectedDate}
-            onChange={(date: Date | null) => date && setSelectedDate(date)}
-            dateFormat="MMMM yyyy"
-            showMonthYearPicker
-            className="p-1 border rounded text-sm"
-          />
-        </div>
+        <label className="text-sm font-medium">Month:</label>
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date: Date | null) => date && setSelectedDate(date)}
+          dateFormat="MMMM yyyy"
+          showMonthYearPicker
+          className="p-1 border rounded text-sm"
+        />
+      </div>
+      <Summary />
       <div className="mt-4">
-        <MilkTable entries={entries} onDelete={handleDelete} isLoading={milkEntriesLoading} />
+        <MilkTable
+          entries={entries}
+          onDelete={handleDelete}
+          isLoading={milkEntriesLoading}
+        />
       </div>
     </main>
   );
