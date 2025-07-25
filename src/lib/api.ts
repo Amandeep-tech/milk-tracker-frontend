@@ -1,4 +1,4 @@
-import { GetAllMilkEntriesResponse, GetEntryByIdResponse } from "@/types/apiResponseTypes";
+import { GetAllMilkEntriesResponse, GetEntryByIdResponse, GetSummaryForYearMonthResponse } from "@/types/apiResponseTypes";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const SUFFIX = '/api/milk';
@@ -33,4 +33,9 @@ export async function updateEntry(id: string, entry: { date: number; quantity: n
 
 export async function deleteEntry(id: string) {
   await fetch(`${BASE_URL}${SUFFIX}/${id}`, { method: 'DELETE' });
+}
+
+export async function getSummaryForYearMonth(yearMonth: string) : Promise<GetSummaryForYearMonthResponse> {
+  const res = await fetch(`${BASE_URL}${SUFFIX}/summary/${yearMonth}`);
+  return await res.json();
 }

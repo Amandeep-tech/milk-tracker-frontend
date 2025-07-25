@@ -18,3 +18,27 @@ export interface GetEntryByIdResponse {
   data: MilkEntry;
   message: string;
 }
+
+export interface SummaryForYearMonth {
+  totalQuantity: number;
+  totalAmount: number;
+  entryCount: number;
+  month: string;
+  paymentDone: boolean;
+  paymentDetails: {
+    amount_paid: number;
+    paid_on: string;
+    notes: string;
+  };
+  summary: {
+    [key: string]: string;
+    // '1 L': '2 days',
+  };
+}
+
+export interface GetSummaryForYearMonthResponse {
+  error: 0;
+  data: SummaryForYearMonth;
+  message: string;
+}
+
