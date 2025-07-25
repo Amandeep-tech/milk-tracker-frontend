@@ -67,7 +67,7 @@ export default function HomePage() {
       <div className="flex items-center gap-4 mb-4">
         <Link
           href="/add"
-          className="bg-blue-500 text-white px-4 py-2 rounded text-sm"
+          className="bg-blue-500 text-white px-4 py-2 rounded text-xs min-w-[5rem]"
         >
           Add Entry
         </Link>

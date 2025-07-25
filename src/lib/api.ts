@@ -37,5 +37,14 @@ export async function deleteEntry(id: string) {
 
 export async function getSummaryForYearMonth(yearMonth: string) : Promise<GetSummaryForYearMonthResponse> {
   const res = await fetch(`${BASE_URL}${SUFFIX}/summary/${yearMonth}`);
+  return await res.json();  
+}
+
+export async function markAsPaid(monthYear: string, amountPaid: number, notes: string) {
+  const res = await fetch(`${BASE_URL}/api/payments`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ monthYear, amountPaid, notes }),
+  });
   return await res.json();
 }
