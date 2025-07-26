@@ -5,10 +5,20 @@ import { addEntry } from "@/lib/api";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+
+const message = "Milk entry already exists for this date!";
+
+const initialData = {
+  date: "",
+  quantity: 1,
+  rate: 48, // TODO: will set this in config API in future
+}
 
 export default function AddPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const notify = () => toast(message);
 
   const handleSubmit = async (data: {
     date: number;
@@ -21,7 +31,8 @@ export default function AddPage() {
       if (resp?.error === 0) {
         router.push("/");
       } else {
-        alert(resp?.message);
+        // notify with toast
+        notify();
       }
     } catch (error) {
       console.error(error);
@@ -32,6 +43,14 @@ export default function AddPage() {
 
   return (
     <main className="p-4 max-w-xl mx-auto">
+      <ToastContainer 
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        rtl={false}
+        pauseOnFocusLoss
+      />
       <div className="flex items-center gap-2 mb-4">
         <Link href="/" className="text-blue-500 text-sm">
           <ArrowLeft />
@@ -40,7 +59,7 @@ export default function AddPage() {
       </div>
       <MilkForm
         onSubmit={handleSubmit}
-        initialData={{ date: "", quantity: 0, rate: 0 }}
+        initialData={initialData}
         isLoading={isLoading}
       />
     </main>

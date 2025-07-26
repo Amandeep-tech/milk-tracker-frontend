@@ -27,3 +27,6 @@ body {
 td {
   min-width: 100px;
 }
+.react-datepicker-popper {
+  left: 2rem !important;
+}

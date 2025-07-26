@@ -27,29 +27,29 @@ export default function MilkForm(props: IMilkFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block mb-1">Date</label>
+        <label className="block mb-1 text-sm font-medium">Date</label>
         <DatePicker 
-        className="w-full p-2 border rounded"
+        className="w-full p-2 border rounded max-w-[20rem]"
         dateFormat={"dd/MM/yyyy"}
         selected={date} 
         onChange={(date: Date | null) => setDate(date)}  />
       </div>
       <div>
-        <label className="block mb-1">Quantity</label>
+        <label className="block mb-1 text-sm font-medium">Quantity</label>
         <input
           type="number"
           value={quantity}
           onChange={e => setQuantity(e.target.value)}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded max-w-[20rem]"
         />
       </div>
       <div>
-        <label className="block mb-1">Rate</label>
+        <label className="block mb-1 text-sm font-medium">Rate</label>
         <input
           type="number"
           value={rate}
           onChange={e => setRate(e.target.value)}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded max-w-[20rem]"
         />
       </div>
       <Button 
