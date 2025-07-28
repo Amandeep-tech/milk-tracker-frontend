@@ -6,14 +6,18 @@ interface IAccordionProps {
   open: boolean;
   content: ReactNode;
   headingClassName?: string;
+	onToggle?: () => void;
 }
 
 const Accordion = (props: IAccordionProps) => {
-  const { heading, open = false, content, headingClassName } = props;
+  const { heading, open = false, content, headingClassName, onToggle } = props;
 
   const [openAcc, setOpenAcc] = useState(open);
 
-  const handleToggle = () => setOpenAcc(!openAcc);
+  const handleToggle = () => {
+		onToggle?.();
+		setOpenAcc(!openAcc);
+	}
 
   return (
     <div>

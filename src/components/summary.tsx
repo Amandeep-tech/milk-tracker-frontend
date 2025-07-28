@@ -12,6 +12,7 @@ const Summary = () => {
   const [summary, setSummary] = useState<SummaryForYearMonth | null>(null);
   const [summaryDate, setSummaryDate] = useState<Date>(new Date());
 	const [markAsPaidLoading, setMarkAsPaidLoading] = useState(false);
+	const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
   const fetchSummaryForYearMonth = async () => {
     try {
@@ -56,8 +57,10 @@ const Summary = () => {
 	}
 
   useEffect(() => {
-    fetchSummaryForYearMonth();
-  }, [summaryDate]);
+		if(isAccordionOpen) {
+			fetchSummaryForYearMonth();
+		}
+  }, [summaryDate, isAccordionOpen]);
 
   const contentForSummary = () => {
     return (
@@ -136,7 +139,8 @@ const Summary = () => {
   return (
     <div className="summary-container border border-gray-300 rounded-md p-2 mt-4 max-w-[20rem]">
       <Accordion
-        open={false}
+        open={isAccordionOpen}
+				onToggle={() => setIsAccordionOpen(!isAccordionOpen)}
         heading="Month wise summary"
         content={contentForSummary()}
       />
