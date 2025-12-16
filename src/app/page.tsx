@@ -73,7 +73,7 @@ export default function HomePage() {
         </Link>
       </div>
       <Summary />
-      <div className="flex items-center justify-between flex-wrap gap-2 mt-4">
+      <div className="flex items-center justify-between flex-wrap gap-2 mt-4 max-w-[324px]">
         <label className="text-sm font-medium">Month :</label>
         <DatePicker
           selected={selectedDate}

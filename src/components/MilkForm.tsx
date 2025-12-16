@@ -54,7 +54,7 @@ export default function MilkForm(props: IMilkFormProps) {
       </div>
       <Button 
         type="submit" 
-        className='w-[6rem]' 
+        className='w-[6rem] cursor-pointer hover:bg-blue-500 hover:text-black transition-colors duration-200' 
         text="Submit" 
         variant="primary" 
         size="lg" 

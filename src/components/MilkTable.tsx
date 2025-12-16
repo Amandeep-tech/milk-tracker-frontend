@@ -11,6 +11,7 @@ export default function MilkTable({
   onDelete: (id: number) => void;
   isLoading?: boolean;
 }) {
+  const totalColumns = 6
   return (
     <table className="w-full text-sm border-collapse border border-gray-300 rounded-md">
       <thead>
@@ -26,7 +27,7 @@ export default function MilkTable({
       <tbody>
         {isLoading && (
           <tr>
-            {Array.from({ length: 5 }).map((_, index) => (
+            {Array.from({ length: totalColumns }).map((_, index) => (
               <td key={index} className="p-2 border border-gray-300">
                 <Shimmer width="50px" height="20px" />
               </td>
@@ -35,7 +36,7 @@ export default function MilkTable({
         )}
         {!isLoading && entries?.length === 0 && (
           <tr>
-            <td colSpan={5} className="text-center p-4">
+            <td colSpan={totalColumns} className="text-center p-4">
               No entries found
             </td>
           </tr>
@@ -55,15 +56,15 @@ export default function MilkTable({
             <td className="p-2 border border-gray-300 text-center">
               <Link
                 href={`/edit/${entry.id}`}
-                className="text-blue-600 border border-blue-600 rounded-md px-2 py-1"
+                className="text-blue-600 border border-blue-600 rounded-md px-4 py-1 hover:bg-blue-600 hover:text-white transition-colors duration-200"
               >
                 Edit
               </Link>
             </td>
-            <td className="p-2 border border-gray-300">
+            <td className="p-2 border border-gray-300 text-center">
               <button
                 onClick={() => onDelete(entry.id)}
-                className="text-red-600 border border-red-600 rounded-md px-2 py-1"
+                className="text-red-600 cursor-pointer border border-red-600 rounded-md px-4 py-1 hover:bg-red-600 hover:text-white transition-colors duration-200"
               >
                 Delete
               </button>

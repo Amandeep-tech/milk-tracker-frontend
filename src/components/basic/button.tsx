@@ -9,7 +9,7 @@ interface IButtonProps {
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   loading?: boolean;
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "link" | "danger";
+  variant?: "primary" | "normal" | "secondary" | "outline" | "ghost" | "link" | "danger";
   size?: "sm" | "md" | "lg";
   icon?: React.ReactNode;
 }
@@ -23,6 +23,7 @@ disabled:pointer-events-none disabled:opacity-50`;
 const  variantClasses = {
     primary: "bg-blue-500 text-white",
     secondary: "bg-blue-600 text-white",
+    normal: "bg-white-400 border border-gray-300 text-black",
     outline: "bg-white text-gray-600 border-gray-300",
     ghost: "bg-transparent text-gray-600",
     link: "bg-transparent text-blue-600",
