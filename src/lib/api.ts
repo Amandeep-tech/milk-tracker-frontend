@@ -1,4 +1,4 @@
-import { AddEntryAPIResponse, DeleteEntryAPIResponse, GetAllMilkEntriesResponse, GetEntryByIdResponse, GetSummaryForYearMonthResponse, MarkAsPaidAPIResponse } from "@/types/apiResponseTypes";
+import { AddEntryAPIResponse, DeleteEntryAPIResponse, GetAllMilkEntriesResponse, GetEntryByIdResponse, GetSummaryForYearMonthResponse, MarkAsPaidAPIResponse, UpdateEntryAPIResponse } from "@/types/apiResponseTypes";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const SUFFIX = '/api/milk';
@@ -20,7 +20,7 @@ export async function addEntry(entry: { date: number; quantity: number; rate: nu
 
 }
 
-export async function updateEntry(id: string, entry: { date: number; quantity: number; rate: number }) {
+export async function updateEntry(id: string, entry: { date: number; quantity: number; rate: number }): Promise<UpdateEntryAPIResponse> {
   return await apiFetch(`${BASE_URL}${SUFFIX}/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },

@@ -49,6 +49,12 @@ export interface DeleteEntryAPIResponse {
   data: null;
 }
 
+export interface UpdateEntryAPIResponse {
+  error: number;
+  data: null;
+  message: string;
+}
+
 export interface AddEntryAPIResponse {
   error: number;
   data: {
