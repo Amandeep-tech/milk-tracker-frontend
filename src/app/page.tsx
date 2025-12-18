@@ -11,6 +11,8 @@ import { Poppins } from "next/font/google";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Summary from "@/components/summary";
+import { toast } from "react-toastify";
+const notifyFailedToDelete = () => toast("Failed to delete entry!");
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -66,11 +68,15 @@ export default function HomePage() {
     setEntries(updatedEntries);
     try {
       const resp = await deleteEntry(id.toString());
-      fetchData();
+      if(resp?.error === 0) {
+        fetchData();
+      } else {
+        notifyFailedToDelete()
+      }
     } catch (error) {
       console.error(error);
+      notifyFailedToDelete();
     }
-    fetchData();
   };
 
   return (

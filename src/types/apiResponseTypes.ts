@@ -49,3 +49,23 @@ export interface DeleteEntryAPIResponse {
   data: null;
 }
 
+export interface AddEntryAPIResponse {
+  error: number;
+  data: {
+    id: number;
+  };
+  message: string;
+}
+
+export interface MarkAsPaidAPIResponse {
+    error: number,
+    data: {
+        id: number;
+        monthYear: string;
+        amountPaid: number;
+        notes: string;
+    },
+    message: string
+
+}
+

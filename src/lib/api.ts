@@ -1,17 +1,17 @@
-import { DeleteEntryAPIResponse, GetAllMilkEntriesResponse, GetEntryByIdResponse, GetSummaryForYearMonthResponse } from "@/types/apiResponseTypes";
+import { AddEntryAPIResponse, DeleteEntryAPIResponse, GetAllMilkEntriesResponse, GetEntryByIdResponse, GetSummaryForYearMonthResponse, MarkAsPaidAPIResponse } from "@/types/apiResponseTypes";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const SUFFIX = '/api/milk';
 
-export async function getAllMilkEntries(yearMonth: string) : Promise<GetAllMilkEntriesResponse> {
+export async function getAllMilkEntries(yearMonth: string): Promise<GetAllMilkEntriesResponse> {
   return await apiFetch<GetAllMilkEntriesResponse>(`${BASE_URL}${SUFFIX}?yearMonth=${yearMonth}`);
 }
 
-export async function getEntryById(id: string) : Promise<GetEntryByIdResponse> {
+export async function getEntryById(id: string): Promise<GetEntryByIdResponse> {
   return await apiFetch<GetEntryByIdResponse>(`${BASE_URL}${SUFFIX}/${id}`);
 }
 
-export async function addEntry(entry: { date: number; quantity: number; rate: number }) {
+export async function addEntry(entry: { date: number; quantity: number; rate: number }): Promise<AddEntryAPIResponse> {
   return await apiFetch(`${BASE_URL}${SUFFIX}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -28,18 +28,18 @@ export async function updateEntry(id: string, entry: { date: number; quantity: n
   });
 }
 
-export async function deleteEntry(id: string) : Promise<DeleteEntryAPIResponse> {
+export async function deleteEntry(id: string): Promise<DeleteEntryAPIResponse> {
   return await apiFetch<DeleteEntryAPIResponse>(`${BASE_URL}${SUFFIX}/${id}`, {
     method: 'DELETE',
   });
 }
 
-export async function getSummaryForYearMonth(yearMonth: string) : Promise<GetSummaryForYearMonthResponse> {
+export async function getSummaryForYearMonth(yearMonth: string): Promise<GetSummaryForYearMonthResponse> {
   return await apiFetch<GetSummaryForYearMonthResponse>(`${BASE_URL}${SUFFIX}/summary/${yearMonth}`);
 }
 
-export async function markAsPaid(monthYear: string, amountPaid: number, notes: string) {
-  return await apiFetch(`${BASE_URL}${SUFFIX}/summary/markPaid`, {
+export async function markAsPaid(monthYear: string, amountPaid: number, notes: string): Promise<MarkAsPaidAPIResponse> {
+  return await apiFetch(`${BASE_URL}/api/payments`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ monthYear, amountPaid, notes }),
@@ -58,7 +58,7 @@ async function apiFetch<T>(
     try {
       const body = await res.json();
       message = body?.message || message;
-    } catch {}
+    } catch { }
     throw new Error(message);
   }
 
