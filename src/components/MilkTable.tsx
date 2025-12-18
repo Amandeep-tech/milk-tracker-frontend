@@ -1,6 +1,7 @@
 import { MilkEntry } from "@/types/apiResponseTypes";
 import Link from "next/link";
 import Shimmer from "./basic/shimmer";
+import Button from "./basic/button";
 
 export default function MilkTable({
   entries,
@@ -61,13 +62,14 @@ export default function MilkTable({
                 Edit
               </Link>
             </td>
-            <td className="p-2 border border-gray-300 text-center">
-              <button
+            <td className="p-2 flex items-center justify-center">
+              <Button
                 onClick={() => onDelete(entry.id)}
+                loading={entry.deleteBtnLoading}
                 className="text-red-600 cursor-pointer border border-red-600 rounded-md px-4 py-1 hover:bg-red-600 hover:text-white transition-colors duration-200"
               >
                 Delete
-              </button>
+              </Button>
             </td>
           </tr>
         ))}

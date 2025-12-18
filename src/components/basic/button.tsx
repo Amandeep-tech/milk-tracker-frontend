@@ -30,14 +30,14 @@ const  variantClasses = {
     danger: "bg-red-500 text-white",
 }
 
-const button = (props: IButtonProps) => {
+const Button = (props: IButtonProps) => {
     const { text, children, onClick, className, type, disabled, loading, variant, size, icon } = props;
   return (
     <button
       onClick={onClick}
       className={`${defaultClasses} ${variantClasses[variant as keyof typeof variantClasses]} ${className}`}
       type={type}
-      disabled={disabled}
+      disabled={disabled || loading}
     >
     {
         loading ? <Loader2 className="animate-spin" /> : text ? text : children
@@ -46,4 +46,4 @@ const button = (props: IButtonProps) => {
   )
 }
 
-export default button
+export default Button

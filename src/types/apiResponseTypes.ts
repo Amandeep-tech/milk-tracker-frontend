@@ -5,6 +5,7 @@ export interface MilkEntry {
   rate: number;
   total: number;
   created_at: string;
+  deleteBtnLoading?: boolean;
 }
 
 export interface GetAllMilkEntriesResponse {
@@ -40,5 +41,11 @@ export interface GetSummaryForYearMonthResponse {
   error: 0;
   data: SummaryForYearMonth;
   message: string;
+}
+
+export interface DeleteEntryAPIResponse {
+  error: 0;
+  message: string;
+  data: null;
 }
 

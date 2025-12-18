@@ -57,7 +57,19 @@ export default function HomePage() {
   }, [selectedDate]); // Refetch when selected date changes
 
   const handleDelete = async (id: number) => {
-    await deleteEntry(id.toString());
+    const updatedEntries = entries.map(entry => {
+      if (entry.id === id) {
+        return { ...entry, deleteBtnLoading: true };
+      }
+      return entry;
+    });
+    setEntries(updatedEntries);
+    try {
+      const resp = await deleteEntry(id.toString());
+      fetchData();
+    } catch (error) {
+      console.error(error);
+    }
     fetchData();
   };
 
