@@ -11,7 +11,7 @@ export default function MilkTable({
   onDelete: (id: number) => void;
   isLoading?: boolean;
 }) {
-  const totalColumns = 6
+  const totalColumns = 5
   return (
     <table className="w-full text-sm border-collapse border border-gray-300 rounded-md">
       <thead>
@@ -19,7 +19,7 @@ export default function MilkTable({
           <th className="p-2 border border-gray-300 min-w-[100px]">Date</th>
           <th className="p-2 border border-gray-300">Quantity (L)</th>
           <th className="p-2 border border-gray-300">Rate (₹)</th>
-          <th className="p-2 border border-gray-300">Total Amount (₹)</th>
+          {/* <th className="p-2 border border-gray-300">Total Amount (₹)</th> */}
           <th className="p-2 border border-gray-300 min-w-[100px]">Edit</th>
           <th className="p-2 border border-gray-300 min-w-[100px]">Delete</th>
         </tr>
@@ -52,7 +52,7 @@ export default function MilkTable({
             </td>
             <td className="p-2 border border-gray-300 text-center">{entry.quantity}</td>
             <td className="p-2 border border-gray-300 text-center">{entry.rate}</td>
-            <td className="p-2 border border-gray-300 text-center">{entry.total}</td>
+            {/* <td className="p-2 border border-gray-300 text-center">{entry.total}</td> */}
             <td className="p-2 border border-gray-300 text-center">
               <Link
                 href={`/edit/${entry.id}`}
