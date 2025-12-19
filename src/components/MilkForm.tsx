@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Button from './basic/button';
 
 interface IMilkFormProps {
-  onSubmit: (data: { date: number; quantity: number; rate: number }) => void;
-  initialData: { date: string; quantity: number; rate: number };
+  onSubmit: (data: { date: number; quantity: number; rate: number, notes: string }) => void;
+  initialData: { date: string; quantity: number; rate: number; notes?: string };
   isLoading?: boolean;
 }
 
@@ -15,12 +15,19 @@ export default function MilkForm(props: IMilkFormProps) {
   const [date, setDate] = useState<Date | null>(initialData.date ? new Date(initialData.date) : new Date());
   const [quantity, setQuantity] = useState(initialData.quantity || '');
   const [rate, setRate] = useState(initialData.rate || '');
+  const notes = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(()=> {
+    if(initialData.notes && notes.current) {
+      notes.current.value = initialData.notes;
+    }
+  }, [initialData.notes])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (date) {
       const epochTimestamp = date.getTime();
-      onSubmit({ date: epochTimestamp, quantity: Number(quantity), rate: Number(rate) });
+      onSubmit({ date: epochTimestamp, quantity: Number(quantity), rate: Number(rate), notes: notes.current?.value || '' });
     }
   };
 
@@ -62,6 +69,14 @@ export default function MilkForm(props: IMilkFormProps) {
             }
           }}
           className="w-full p-2 border rounded max-w-[20rem]"
+        />
+      </div>
+      <div>
+        <label className="block mb-1 text-sm font-medium">Notes (optional)</label>
+        <textarea
+          ref={notes}
+          className="w-full p-2 border rounded max-w-[20rem]"
+          rows={2}
         />
       </div>
       <Button 

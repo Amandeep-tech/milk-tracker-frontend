@@ -24,6 +24,7 @@ export default function AddPage() {
     date: number;
     quantity: number;
     rate: number;
+    notes?: string;
   }) => {
     try {
       setIsLoading(true);
