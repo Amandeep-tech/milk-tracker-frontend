@@ -81,7 +81,7 @@ export default function HomePage() {
 
   return (
     <main className={`p-4 ${poppins.className}`}>
-      <h1 className={`text-xl font-bold mb-4`}>Milk Tracker 🥛🥛</h1>
+      <h1 className={`text-2xl font-bold mb-4 text-center`}>🥛Milk Tracker🥛</h1>
       <div className="flex items-center gap-4 mb-4">
         <Link
           href="/add"

@@ -57,7 +57,7 @@ export default function MilkTable({
             <td className="p-2 border border-gray-300 text-center">
               <Link
                 href={`/edit/${entry.id}`}
-                className="text-blue-600 border border-blue-600 rounded-md px-4 py-1 hover:bg-blue-600 hover:text-white transition-colors duration-200"
+                className="cursor-pointer text-blue-600 border border-blue-600 rounded-md px-4 py-1 hover:bg-blue-600 hover:text-white transition-colors duration-200"
               >
                 Edit
               </Link>
