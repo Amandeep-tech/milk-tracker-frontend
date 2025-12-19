@@ -37,18 +37,30 @@ export default function MilkForm(props: IMilkFormProps) {
       <div>
         <label className="block mb-1 text-sm font-medium">Quantity</label>
         <input
-          type="number"
+          type="text"
           value={quantity}
-          onChange={e => setQuantity(e.target.value)}
+          onChange={e => {
+            const val = e.target.value;
+            // allow only numbers and decimal point
+            if (/^\d*\.?\d*$/.test(val)) {
+              setQuantity(val);
+            }
+          }}
           className="w-full p-2 border rounded max-w-[20rem]"
         />
       </div>
       <div>
         <label className="block mb-1 text-sm font-medium">Rate</label>
         <input
-          type="number"
+          type="text"
           value={rate}
-          onChange={e => setRate(e.target.value)}
+          onChange={e => {
+            const val = e.target.value;
+            // allow only numbers and decimal point
+            if (/^\d*\.?\d*$/.test(val)) {
+              setRate(val);
+            }
+          }}
           className="w-full p-2 border rounded max-w-[20rem]"
         />
       </div>

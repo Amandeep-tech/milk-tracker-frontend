@@ -36,6 +36,7 @@ export default function AddPage() {
       }
     } catch (error) {
       console.error(error);
+      notify();
     } finally {
       setIsLoading(false);
     }
