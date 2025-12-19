@@ -69,6 +69,8 @@ export default function HomePage() {
     try {
       const resp = await deleteEntry(id.toString());
       if(resp?.error === 0) {
+        // clearing the entries to show loading state while refetching
+        setEntries([]);
         fetchData();
       } else {
         notifyFailedToDelete()
