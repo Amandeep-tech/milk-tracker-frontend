@@ -2,6 +2,7 @@ import React from "react";
 import Modal from "./basic/modal";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import { LockIcon } from "lucide-react";
 
 
 interface IPinModal {
@@ -39,7 +40,7 @@ const PinModal = ({ onSuccess }: IPinModal) => {
       <div className="flex flex-col items-center text-center gap-4">
         {/* Icon / visual cue */}
         <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xl font-bold">
-          🔒
+          {<LockIcon className="w-6 h-6" />}
         </div>
 
         <p className="text-sm text-gray-600">
