@@ -5,7 +5,7 @@ import { addEntry } from "@/lib/api";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const message = "Milk entry already exists for this date!";
 
@@ -45,14 +45,6 @@ export default function AddPage() {
 
   return (
     <main className="p-4 max-w-xl mx-auto">
-      <ToastContainer 
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        rtl={false}
-        pauseOnFocusLoss
-      />
       <div className="flex items-center gap-2 mb-4">
         <Link href="/" className="text-blue-500 text-sm">
           <ArrowLeft />

@@ -2,6 +2,7 @@ import { MilkEntry } from "@/types/apiResponseTypes";
 import Link from "next/link";
 import Shimmer from "./basic/shimmer";
 import Button from "./basic/button";
+import { Edit, Trash } from "lucide-react";
 
 export default function MilkTable({
   entries,
@@ -60,7 +61,7 @@ export default function MilkTable({
                 href={`/edit/${entry.id}`}
                 className="cursor-pointer text-blue-600 border border-blue-600 rounded-md pt-[8px] pb-[8px] pl-[1rem] pr-[1rem] py-1 hover:bg-blue-600 hover:text-white transition-colors duration-200"
               >
-                Edit
+                <Edit className="w-4 h-4 inline" /> Edit
               </Link>
             </td>
             <td className="p-2 flex items-center justify-center">
@@ -69,7 +70,7 @@ export default function MilkTable({
                 loading={entry.deleteBtnLoading}
                 className="text-red-600 cursor-pointer border border-red-600 rounded-md px-2 py-1 hover:bg-red-600 hover:text-white transition-colors duration-200"
               >
-                Delete
+                <Trash className="w-4 h-4 inline" /> Delete
               </Button>
             </td>
           </tr>

@@ -1,4 +1,4 @@
-import { AddEntryAPIResponse, DeleteEntryAPIResponse, GetAllMilkEntriesResponse, GetEntryByIdResponse, GetSummaryForYearMonthResponse, MarkAsPaidAPIResponse, UpdateEntryAPIResponse } from "@/types/apiResponseTypes";
+import { AddEntryAPIResponse, DeleteEntryAPIResponse, GetAllMilkEntriesResponse, GetEntryByIdResponse, GetSummaryForYearMonthResponse, MarkAsPaidAPIResponse, MilkDefaultsAPIResponse, UpdateEntryAPIResponse } from "@/types/apiResponseTypes";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const SUFFIX = '/api/milk';
@@ -44,6 +44,30 @@ export async function markAsPaid(monthYear: string, amountPaid: number, notes: s
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ monthYear, amountPaid, notes }),
   });
+}
+
+export const getMilkDefaults = async (): Promise<MilkDefaultsAPIResponse> => {
+  try {
+    return await apiFetch<MilkDefaultsAPIResponse>(`${BASE_URL}${SUFFIX}/defaults`, {
+      method: 'GET',
+    });
+  } catch (error) {
+    console.error('Error fetching milk defaults:', error);
+    throw error;
+  }
+}
+
+export const updateAutoMilkEntrySetting = async (payload: { autoMilkEntryEnabled: boolean }): Promise<MilkDefaultsAPIResponse> => {
+  try {
+    return await apiFetch<MilkDefaultsAPIResponse>(`${BASE_URL}${SUFFIX}/defaults`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+  } catch (error) {
+    console.error('Error updating auto milk entry setting:', error);
+    throw error;
+  }
 }
 
 
