@@ -72,6 +72,17 @@ export interface MarkAsPaidAPIResponse {
         notes: string;
     },
     message: string
+}
 
+export interface MilkDefaultsAPIResponse {
+    error: number,
+    data: {
+        id: number;
+        quantity: number;
+        rate: number;
+        auto_entry_enabled: boolean;
+        updated_at: string;
+    },
+    message: string;
 }
 
