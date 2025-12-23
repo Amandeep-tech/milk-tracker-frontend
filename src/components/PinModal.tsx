@@ -89,7 +89,7 @@ const PinModal = ({ onSuccess }: IPinModal) => {
         </p>
 				<div>OR</div>
 				<Link href={"https://singhamandeep.dev"} target="_blank" className="text-blue-600 hover:underline">
-					Aman's Portfolio
+					{"Aman's Portfolio"}
 				</Link>
       </div>
     </Modal>
