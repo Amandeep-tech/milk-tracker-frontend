@@ -75,6 +75,18 @@ async function apiFetch<T>(
   url: string,
   options?: RequestInit
 ): Promise<T> {
+  const pin = localStorage.getItem('x-app-pin');
+  if(!pin) return Promise.reject(new Error('Provide PIN'));
+  
+  const headers = { 
+    'x-app-pin': pin,
+    ...(options?.headers || {})
+  };
+
+  options = {
+    ...options,
+    headers,
+  };
   const res = await fetch(url, options);
 
   if (!res.ok) {

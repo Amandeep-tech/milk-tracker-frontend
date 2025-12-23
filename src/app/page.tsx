@@ -15,10 +15,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import Summary from "@/components/summary";
 import { toast, ToastContainer } from "react-toastify";
 import Button from "@/components/basic/button";
-import {CirclePause, Play, Plus} from "lucide-react";
+import { CirclePause, Play, Plus } from "lucide-react";
+import PinModal from "@/components/PinModal";
+import Shimmer from "@/components/basic/shimmer";
 
-const notifyFailedToDelete = () => toast("Failed to delete entry!");
-const notifyFailedToFetchMilkDefaults = () => toast("Failed to fetch milk defaults!");
+const notifyFailedToDelete = () => toast.error("Failed to delete entry!");
+const notifyFailedToFetchMilkDefaults = () => toast.error("Failed to fetch milk defaults!");
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -34,18 +36,25 @@ export default function HomePage() {
   const [milkDefaults, setMilkDefaults] = useState<MilkDefaultsAPIResponse["data"] | null>(null);
   const [playPauseBtnLoading, setPlayPauseBtnLoading] = useState(false);
 
+  const [showPinModal, setShowPinModal] = useState(false);
+
 
   const isAutoMilkEntryEnabled = useMemo(() => milkDefaults?.auto_entry_enabled || false, [milkDefaults]);
 
   useEffect(() => {
-    fetchData();
+    fetchMilkEntries();
   }, [selectedDate]); // Refetch when selected date changes
 
   useEffect(() => {
     fetchMilkDefaults();
   }, []);
 
-  const fetchData = async () => {
+  useEffect(() => {
+    if (localStorage.getItem('x-app-pin') === process.env.NEXT_PUBLIC_APP_PIN) return;
+    setShowPinModal(true);
+  }, []);
+
+  const fetchMilkEntries = async () => {
     try {
       setMilkEntriesLoading(true);
       const yearMonth = `${selectedDate.getFullYear()}-${String(
@@ -77,12 +86,12 @@ export default function HomePage() {
     try {
       const resp = await getMilkDefaults();
       console.log("Milk defaults:", resp);
-      if(resp?.error !== 0) {
+      if (resp?.error !== 0) {
         setMilkDefaults(null);
-      } else if(resp?.data) {
+      } else if (resp?.data) {
         setMilkDefaults(resp?.data);
       }
-    } catch(err) {
+    } catch (err) {
       console.error(err);
       notifyFailedToFetchMilkDefaults();
     }
@@ -98,10 +107,10 @@ export default function HomePage() {
     setEntries(updatedEntries);
     try {
       const resp = await deleteEntry(id.toString());
-      if(resp?.error === 0) {
+      if (resp?.error === 0) {
         // clearing the entries to show loading state while refetching
         setEntries([]);
-        fetchData();
+        fetchMilkEntries();
       } else {
         notifyFailedToDelete()
       }
@@ -111,6 +120,10 @@ export default function HomePage() {
     }
   };
 
+  const loadHomePageData = async () => {
+    Promise.all([fetchMilkEntries(), fetchMilkDefaults()]);
+  }
+
   const handlePlayPauseBtnClick = async () => {
     try {
       const payload = {
@@ -119,9 +132,9 @@ export default function HomePage() {
       setPlayPauseBtnLoading(true);
       const resp = await updateAutoMilkEntrySetting(payload);
       setPlayPauseBtnLoading(false);
-      if(resp?.error === 0 && resp?.data) {
+      if (resp?.error === 0 && resp?.data) {
         setMilkDefaults(resp.data);
-        if(resp.data.auto_entry_enabled) {
+        if (resp.data.auto_entry_enabled) {
           toast("Auto milk entry activated!");
         } else {
           toast("Auto milk entry deactivated!");
@@ -129,7 +142,7 @@ export default function HomePage() {
       } else {
         toast("Failed to update auto milk entry setting!");
       }
-    } catch (err) { 
+    } catch (err) {
       console.error(err);
     } finally {
     }
@@ -137,7 +150,7 @@ export default function HomePage() {
 
   return (
     <main className={`p-4 ${poppins.className}`}>
-      <ToastContainer 
+      <ToastContainer
         position="top-center"
         autoClose={3000}
         hideProgressBar={false}
@@ -145,6 +158,13 @@ export default function HomePage() {
         rtl={false}
         pauseOnFocusLoss
       />
+      {showPinModal && 
+      <PinModal
+        onSuccess={() => {
+          setShowPinModal(false);
+          loadHomePageData();
+        }}
+      />}
       <h1 className={`text-2xl font-bold mb-4 text-center`}>🥛Milk Tracker🥛</h1>
       <div className="flex items-center gap-4 mb-4">
         <Link
@@ -154,7 +174,7 @@ export default function HomePage() {
           <Plus className="w-4 h-4 inline" /> Add Entry
         </Link>
       </div>
-      <div className="flex items-center gap-4 mb-4">
+      {milkDefaults ? <div className="flex items-center gap-4 mb-4">
         <Button
           variant="normal"
           className="hover:bg-blue-600 hover:text-white text-black border border-gray-300"
@@ -164,7 +184,7 @@ export default function HomePage() {
         >
           {isAutoMilkEntryEnabled ? <div className="flex justify-center items-center gap-2"><CirclePause className="w-4 h-4" /><span>Deactivate Auto Milk Entry</span></div> : <div className="flex justify-center items-center gap-2"><Play className="w-4 h-4" /> <span>Activate Auto Milk Entry</span></div>}
         </Button>
-      </div>
+      </div> : <Shimmer width="220px" height="50px" />}
       <Summary />
       <div className="flex items-center justify-between flex-wrap gap-2 mt-4 max-w-[324px]">
         <label className="text-sm font-medium">Month :</label>
