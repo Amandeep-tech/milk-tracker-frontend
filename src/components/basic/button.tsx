@@ -46,7 +46,7 @@ const Button = (props: IButtonProps) => {
       {loading && <Loader2 className="animate-spin h-4 w-4 cursor-not-allowed" />}
 
       <span
-        className={loading ? "opacity-80" : ""}
+        className={loading ? "opacity-80" : "flex gap-0.5 items-center"}
       >
         {text ?? children}
       </span>

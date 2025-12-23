@@ -182,18 +182,18 @@ export default function HomePage() {
           loading={playPauseBtnLoading}
           disabled={playPauseBtnLoading}
         >
-          {isAutoMilkEntryEnabled ? <div className="flex justify-center items-center gap-2"><CirclePause className="w-4 h-4" /><span>Deactivate Auto Milk Entry</span></div> : <div className="flex justify-center items-center gap-2"><Play className="w-4 h-4" /> <span>Activate Auto Milk Entry</span></div>}
+          {isAutoMilkEntryEnabled ? <div className="flex justify-center items-center gap-2 flex-wrap"><CirclePause className="w-4 h-4" /><span>Deactivate Auto Milk Entry</span></div> : <div className="flex justify-center items-center gap-2 flex-wrap"><Play className="w-4 h-4" /> <span>Activate Auto Milk Entry</span></div>}
         </Button>
       </div> : <Shimmer width="220px" height="50px" />}
       <Summary />
-      <div className="flex items-center justify-between flex-wrap gap-2 mt-4 max-w-[324px]">
-        <label className="text-sm font-medium">Month :</label>
+      <div className="p-2 rounded-[6px] flex items-center justify-between flex-wrap border border-gray-300 gap-2 mt-4 max-w-[324px]">
+        <div className="text-sm font-medium">Month :</div>
         <DatePicker
           selected={selectedDate}
           onChange={(date: Date | null) => date && setSelectedDate(date)}
           dateFormat="MMMM yyyy"
           showMonthYearPicker
-          className="p-1 border border-gray-300 rounded-[6px] text-sm"
+          className="p-1 border border-gray-300 rounded-[6px] cursor-pointer text-sm"
         />
       </div>
       <div className="mt-4 w-full overflow-x-auto max-w-full overflow-hidden">
