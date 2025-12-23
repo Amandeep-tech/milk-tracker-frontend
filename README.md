@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🥛 Milk Tracker (Personal Project)
 
-## Getting Started
+A **single-user personal tracking system** built to automate daily milk entries, track monthly consumption & payments, and practice real-world backend + frontend engineering.
 
-First, run the development server:
+This project focuses on **architecture, automation, and security trade-offs** rather than feature bloat.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔑 Key Highlights (Recruiter-Friendly)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* Automated **daily data creation** using GitHub Actions (cron)
+* Cost-optimized backend by migrating from AWS RDS → Supabase (PostgreSQL)
+* Idempotent backend jobs (safe retries, no duplicates)
+* Layered backend security **without full authentication**
+* Clean REST APIs with proper HTTP semantics
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🏗 Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+* **Frontend**: Next.js (App Router)
+* **Backend**: Node.js + Express
+* **Database**: Supabase (PostgreSQL)
+* **Automation**: GitHub Actions (cron jobs)
+* **Hosting**:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  * Frontend: Vercel
+  * Backend: Render (free tier, sleeping service)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🤖 Automation (Cron Job)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* GitHub Action runs **daily at 10 AM IST**
+* Wakes sleeping backend via `/health` endpoint
+* Triggers protected internal endpoint to auto-create milk entry
+* Fully idempotent (checks if entry already exists)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Why GitHub Actions?**
+
+* Render free tier sleeps on inactivity
+* GitHub Actions reliably triggers backend without direct DB access
+
+---
+
+## 🔐 Security Design (Intentional & Layered)
+
+This is a **single-user app**, so full login/signup was intentionally skipped.
+
+Instead, security is enforced as:
+
+* **Backend PIN-based authorization** (validated via middleware)
+* **CORS restriction** (only frontend origin allowed)
+* **Rate limiting** on API routes
+
+> Demonstrates secure system design without unnecessary auth complexity.
+
+---
+
+## 🧩 Data Modeling (Core Tables)
+
+* `milk_entries` – daily quantity & rate
+* `payments` – month-wise payment tracking
+* `milk_defaults` – default rate, quantity & auto-entry toggle
+
+---
+
+## 🎯 Design Decisions (Interview Focus)
+
+* Skipped full auth because the app is single-user
+* Used DB-driven flags to control cron behavior
+* Chose GitHub Actions over in-app cron due to sleeping backend
+* Separated internal automation routes from public APIs
+
+---
+
+## 🚀 What This Project Demonstrates
+
+* Real-world backend problem solving
+* Automation reliability
+* Cost-aware architecture
+* Security-first thinking
+* Clean, maintainable code structure
+
+---
+
+📌 **Note**: Authentication can be added easily if the app becomes multi-user.
+
+---
+
+Built as a personal learning project with a strong focus on **engineering fundamentals**.
