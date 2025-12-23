@@ -36,7 +36,7 @@ const PinModal = ({ onSuccess }: IPinModal) => {
   };
 
   return (
-    <Modal isOpen={true} onClose={() => {}} title="Security Check">
+    <Modal isOpen={true} showCloseIcon={false} onClose={() => {}} title="Security Check">
       <div className="flex flex-col items-center text-center gap-4">
         {/* Icon / visual cue */}
         <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xl font-bold">
