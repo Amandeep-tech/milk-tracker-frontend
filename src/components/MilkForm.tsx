@@ -48,7 +48,7 @@ export default function MilkForm(props: IMilkFormProps) {
         onChange={(date: Date | null) => setDate(date)}  />
       </div>
       <div>
-        <label className="block mb-1 text-sm font-medium">Quantity</label>
+        <label className="block mb-1 text-sm font-medium">Quantity <span className='font-normal'>(per Litre)</span></label>
         <input
           type="text"
           value={quantity}
@@ -63,7 +63,7 @@ export default function MilkForm(props: IMilkFormProps) {
         />
       </div>
       <div>
-        <label className="block mb-1 text-sm font-medium">Rate</label>
+        <label className="block mb-1 text-sm font-medium">Rate <span className='font-normal'>(Rs.)</span></label>
         <input
           type="text"
           value={rate}
@@ -78,7 +78,7 @@ export default function MilkForm(props: IMilkFormProps) {
         />
       </div>
       <div>
-        <label className="block mb-1 text-sm font-medium">Notes (optional)</label>
+        <label className="block mb-1 text-sm font-medium">Notes <span className='font-normal'>(optional)</span></label>
         <textarea
           ref={notes}
           className="w-full p-2 border rounded max-w-[20rem]"
