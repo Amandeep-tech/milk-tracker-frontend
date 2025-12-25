@@ -1,5 +1,5 @@
-import { Loader2 } from 'lucide-react';
-import React from 'react'
+import { Loader2 } from "lucide-react";
+import React from "react";
 
 interface IButtonProps {
   text?: string;
@@ -9,7 +9,14 @@ interface IButtonProps {
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   loading?: boolean;
-  variant?: "primary" | "normal" | "secondary" | "outline" | "ghost" | "link" | "danger";
+  variant?:
+    | "primary"
+    | "normal"
+    | "secondary"
+    | "outline"
+    | "ghost"
+    | "link"
+    | "danger";
   size?: "sm" | "md" | "lg";
   icon?: React.ReactNode;
 }
@@ -41,16 +48,27 @@ const variantClasses = {
   ghost: "bg-transparent text-gray-600",
   link: "bg-transparent text-blue-600",
   danger: "bg-red-500 text-white",
-}
+};
 
 const sizeClasses = {
   sm: "px-2 py-1 text-sm",
   md: "px-3 py-1.5 text-sm",
   lg: "px-4 py-2 text-md",
-}
+};
 
 const Button = (props: IButtonProps) => {
-  const { text, children, onClick, className, type, disabled, loading, variant, size } = props;
+  const {
+    text,
+    children,
+    onClick,
+    className,
+    type,
+    disabled,
+    loading,
+    variant,
+    size,
+    icon,
+  } = props;
   return (
     <button
       onClick={onClick}
@@ -62,15 +80,24 @@ const Button = (props: IButtonProps) => {
       type={type}
       disabled={disabled || loading}
     >
-      {loading && <Loader2 className="animate-spin h-2 w-2 sm:h-3 sm:w-3 lg:h-4 lg:w-4 cursor-not-allowed" />}
+      {/* {loading && (
+        <Loader2 className="animate-spin h-2 w-2 sm:h-3 sm:w-3 lg:h-4 lg:w-4 cursor-not-allowed" />
+      )} */}
 
-      <span
-        className={loading ? "opacity-80" : "flex gap-0.5 items-center"}
+      <div
+        className={`flex gap-1 items-center justify-center ${
+          loading ? "opacity-60" : ""
+        }`}
       >
-        {text ?? children}
-      </span>
+        {loading ? (
+          <Loader2 className="animate-spin h-2 w-2 sm:h-3 sm:w-3 lg:h-4 lg:w-4 cursor-not-allowed" />
+        ) : icon ? (
+          icon
+        ) : null}
+        {text ? <span>{text}</span> : children}
+      </div>
     </button>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;

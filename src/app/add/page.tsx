@@ -1,24 +1,51 @@
 "use client";
 import MilkForm from "@/components/MilkForm";
 import { useRouter } from "next/navigation";
-import { addEntry } from "@/lib/api";
+import { addEntry, getMilkDefaults } from "@/lib/api";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Shimmer from "@/components/basic/shimmer";
 
 const message = "Milk entry already exists for this date!";
-
-const initialData = {
-  date: "",
-  quantity: 1,
-  rate: 48, // TODO: will set this in config API in future
-}
 
 export default function AddPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [initialData, setInitialData] = useState<{
+    date: string;
+    quantity: number;
+    rate: number;
+    loaded: boolean;
+  }>({
+    date: "",
+    quantity: 1,
+    rate: 48, // default rate as of now
+    loaded: false,
+  });
   const notify = () => toast(message);
+
+  useEffect(() => {
+    void fetchMilkDefaults();
+  }, []);
+
+  const fetchMilkDefaults = async () => {
+    try {
+      const resp = await getMilkDefaults();
+      if (resp?.error === 0 && resp.data) {
+        // set initial rate from defaults
+        if (resp.data) {
+          initialData.rate = resp.data.rate;
+          initialData.quantity = resp.data.quantity;
+          initialData.loaded = true;
+          setInitialData({ ...initialData });
+        }
+      }
+    } catch (error) {
+      console.error("Failed to fetch milk defaults:", error);
+    }
+  };
 
   const handleSubmit = async (data: {
     date: number;
@@ -51,11 +78,17 @@ export default function AddPage() {
         </Link>
         <h1 className="text-xl font-bold">Add Milk Entry</h1>
       </div>
-      <MilkForm
+      {initialData.loaded ? <MilkForm
         onSubmit={handleSubmit}
         initialData={initialData}
         isLoading={isLoading}
-      />
+      /> : (
+        <div>
+          <Shimmer width="300px" height="50px" className="rounded mb-2" />
+          <Shimmer width="300px" height="50px" className="rounded mb-2" />
+          <Shimmer width="300px" height="50px" className="rounded mb-2" />
+        </div>
+      )}
     </main>
   );
 }

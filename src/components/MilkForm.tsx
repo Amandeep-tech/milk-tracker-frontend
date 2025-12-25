@@ -17,6 +17,12 @@ export default function MilkForm(props: IMilkFormProps) {
   const [rate, setRate] = useState(initialData.rate || '');
   const notes = useRef<HTMLTextAreaElement | null>(null);
 
+  useEffect(() => {
+    if(initialData.rate) {
+      setRate(initialData.rate);
+    }
+  }, [initialData.rate]);
+
   useEffect(()=> {
     if(initialData.notes && notes.current) {
       notes.current.value = initialData.notes;

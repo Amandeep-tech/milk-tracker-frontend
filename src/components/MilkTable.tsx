@@ -70,11 +70,11 @@ export default function MilkTable({
             <td className="p-2 flex items-center justify-center">
               <Button
                 onClick={() => onDelete(entry.id)}
+                text="Delete"
+                icon={<Trash className="w-3 h-3 md:w-4 md:h-4 inline" />}
                 loading={entry.deleteBtnLoading}
                 className="text-red-600 cursor-pointer border border-red-600 rounded-md  hover:bg-red-600 hover:text-white transition-colors duration-200 px-1 py-[6px] md:px-2 md:py-[7px] text-[10px] md:text-[12px] lg:text-[14px]"
-              >
-                <Trash className="w-3 h-3 md:w-4 md:h-4 inline" /> Delete
-              </Button>
+              />
             </td>
           </tr>
         ))}
