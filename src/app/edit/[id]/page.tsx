@@ -1,44 +1,59 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { getEntryById, updateEntry } from '@/lib/api';
-import { useRouter, useParams } from 'next/navigation';
-import MilkForm from '@/components/MilkForm';
-import { MilkEntry } from '@/types/apiResponseTypes';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+"use client";
+import { useEffect, useState } from "react";
+import { getEntryById, updateEntry } from "@/lib/api";
+import { useRouter, useParams } from "next/navigation";
+import MilkForm from "@/components/MilkForm";
+import { MilkEntry } from "@/types/apiResponseTypes";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import Shimmer from "@/components/basic/shimmer";
 
 export default function EditPage() {
   const router = useRouter();
   const params = useParams();
   const [entry, setEntry] = useState<MilkEntry | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadingEntry, setLoadingEntry] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     async function fetchEntry() {
-      const data = await getEntryById(params.id as string);
-      if (data.error === 0 && data.data) {
-        setEntry(data.data);
-      } else {
-        router.push('/');
+      try {
+        setLoadingEntry(true);
+        const data = await getEntryById(params.id as string);
+        if (data.error === 0 && data.data) {
+          setEntry(data.data);
+        } else {
+          router.push("/");
+        }
+      } catch (error) {
+        console.error(error);
+        router.push("/");
+      } finally {
+        setLoadingEntry(false);
       }
     }
     fetchEntry();
     // TODO: check if these dependencies are needed
   }, [params.id, router]);
 
-  const handleSubmit = async (updatedData: { date: number; quantity: number; rate: number, notes?: string }) => {
+  const handleSubmit = async (updatedData: {
+    date: number;
+    quantity: number;
+    rate: number;
+    notes?: string;
+  }) => {
     try {
-      setIsLoading(true);
+      setIsSubmitting(true);
       const resp = await updateEntry(params.id as string, updatedData);
       if (resp?.error === 0) {
-        router.push('/');
+        router.push("/");
       } else {
         alert(resp?.message);
       }
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -50,7 +65,19 @@ export default function EditPage() {
         </Link>
         <h1 className="text-xl font-bold">Edit Entry</h1>
       </div>
-      {entry && <MilkForm onSubmit={handleSubmit} initialData={entry} isLoading={isLoading} />}
+      {entry ? (
+        <MilkForm
+          onSubmit={handleSubmit}
+          initialData={entry}
+          isLoading={isSubmitting}
+        />
+      ) : (
+        <div>
+          <Shimmer width="300px" height="50px" className="rounded mb-2" />
+          <Shimmer width="300px" height="50px" className="rounded mb-2" />
+          <Shimmer width="300px" height="50px" className="rounded mb-2" />
+        </div>
+      )}
     </main>
   );
 }
