@@ -13,7 +13,7 @@ import { Poppins } from "next/font/google";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Summary from "@/components/summary";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import Button from "@/components/basic/button";
 import { CirclePause, Play, Plus } from "lucide-react";
 import PinModal from "@/components/PinModal";
@@ -148,14 +148,7 @@ export default function HomePage() {
 
   return (
     <main className={`p-4 ${poppins.className}`}>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        rtl={false}
-        pauseOnFocusLoss
-      />
+      
       {showPinModal && (
         <PinModal
           onSuccess={() => {
