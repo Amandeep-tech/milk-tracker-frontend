@@ -27,6 +27,25 @@ body {
 td {
   min-width: 100px;
 }
+th {
+  white-space: nowrap;
+}
 .react-datepicker-popper {
   left: 2rem !important;
 }
+
+@layer components {
+  .btn-responsive {
+    @apply
+      flex items-center gap-1
+      px-3 py-1.5 text-sm
+      sm:px-4 sm:py-2 sm:text-[14px]
+      md:px-5 md:py-2.5 md:text-base;
+  }
+}
+@layer components {
+  .btn-icon {
+    @apply w-4 h-4 sm:w-5 sm:h-5;
+  }
+}
+
