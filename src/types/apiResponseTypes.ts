@@ -82,7 +82,19 @@ export interface MilkDefaultsAPIResponse {
         rate: number;
         auto_entry_enabled: boolean;
         updated_at: string;
+        vacation_from: string | null;
+        vacation_to: string | null;
     },
     message: string;
+}
+
+export interface VacationModeAPIResponse {
+    error: number,
+    data: {
+        vacationFrom: string | null,
+        vacationTo: string | null,
+        active: boolean
+    },
+    message: string
 }
 
