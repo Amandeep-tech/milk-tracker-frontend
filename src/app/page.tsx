@@ -69,15 +69,7 @@ export default function HomePage() {
       setEntries([]);
       const resp = await getAllMilkEntries(yearMonth);
       if (resp?.error === 0 && resp?.data) {
-        // Filter entries for selected month and year
-        const filteredEntries = resp.data.filter((entry) => {
-          const entryDate = new Date(entry.date);
-          return (
-            entryDate.getMonth() === selectedDate.getMonth() &&
-            entryDate.getFullYear() === selectedDate.getFullYear()
-          );
-        });
-        setEntries(filteredEntries);
+        setEntries(resp.data);
       } else {
         setEntries([]);
       }
