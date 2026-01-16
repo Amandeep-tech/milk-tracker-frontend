@@ -18,6 +18,7 @@ import Button from "@/components/basic/button";
 import { CirclePause, Play, Plus } from "lucide-react";
 import PinModal from "@/components/PinModal";
 import Shimmer from "@/components/basic/shimmer";
+import PleaseWaitModal from "@/components/PleaseWaitModal";
 
 const notifyFailedToDelete = () => toast.error("Failed to delete entry!");
 const notifyFailedToFetchMilkDefaults = () =>
@@ -40,6 +41,8 @@ export default function HomePage() {
   const [playPauseBtnLoading, setPlayPauseBtnLoading] = useState(false);
 
   const [showPinModal, setShowPinModal] = useState(false);
+
+  const [showPleaseWaitModal, setShowPleaseWaitModal] = useState(false);
 
   const isAutoMilkEntryEnabled = useMemo(
     () => milkDefaults?.auto_entry_enabled || false,
@@ -82,11 +85,20 @@ export default function HomePage() {
 
   const fetchMilkDefaults = async () => {
     try {
+      const timer = setTimeout(() => {
+        if (!milkDefaults) {
+          setShowPleaseWaitModal(true);
+          return;
+        }
+      }, 4000);
       const resp = await getMilkDefaults();
       console.log("Milk defaults:", resp);
       if (resp?.error !== 0) {
         setMilkDefaults(null);
       } else if (resp?.data) {
+        clearTimeout(timer);
+        // close the modal as well
+        setShowPleaseWaitModal(false);
         setMilkDefaults(resp?.data);
       }
     } catch (err) {
@@ -148,7 +160,6 @@ export default function HomePage() {
 
   return (
     <main className={`p-4 ${poppins.className}`}>
-      
       {showPinModal && (
         <PinModal
           onSuccess={() => {
@@ -156,6 +167,9 @@ export default function HomePage() {
             loadHomePageData();
           }}
         />
+      )}
+      {showPleaseWaitModal && (
+        <PleaseWaitModal onClose={() => setShowPleaseWaitModal(false)} />
       )}
       <h1 className={`text-2xl font-bold mb-4 text-center`}>
         🥛Milk Tracker🥛
