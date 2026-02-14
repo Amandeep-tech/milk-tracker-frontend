@@ -4,7 +4,7 @@ import {
   getAllMilkEntries,
   deleteEntry,
   getMilkDefaults,
-  updateAutoMilkEntrySetting,
+  updateMilkDefaults,
 } from "@/lib/api";
 import MilkTable from "@/components/MilkTable";
 import Link from "next/link";
@@ -140,7 +140,7 @@ export default function HomePage() {
         autoMilkEntryEnabled: !isAutoMilkEntryEnabled,
       };
       setPlayPauseBtnLoading(true);
-      const resp = await updateAutoMilkEntrySetting(payload);
+      const resp = await updateMilkDefaults(payload);
       setPlayPauseBtnLoading(false);
       if (resp?.error === 0 && resp?.data) {
         setMilkDefaults(resp.data);

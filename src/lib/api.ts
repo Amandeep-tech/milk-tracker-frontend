@@ -89,8 +89,10 @@ export const getMilkDefaults = async (): Promise<MilkDefaultsAPIResponse> => {
   }
 };
 
-export const updateAutoMilkEntrySetting = async (payload: {
+export const updateMilkDefaults = async (payload: {
   autoMilkEntryEnabled: boolean;
+  quantity?: number,
+  rate?: number
 }): Promise<MilkDefaultsAPIResponse> => {
   try {
     return await apiFetch<MilkDefaultsAPIResponse>(
