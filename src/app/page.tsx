@@ -19,6 +19,7 @@ import { CirclePause, Play, Plus } from "lucide-react";
 import PinModal from "@/components/PinModal";
 import Shimmer from "@/components/basic/shimmer";
 import PleaseWaitModal from "@/components/PleaseWaitModal";
+import SideBar from "@/components/basic/SideBar";
 
 const notifyFailedToDelete = () => toast.error("Failed to delete entry!");
 const notifyFailedToFetchMilkDefaults = () =>
@@ -44,9 +45,11 @@ export default function HomePage() {
 
   const [showPleaseWaitModal, setShowPleaseWaitModal] = useState(false);
 
+  const [showSideBar, setShowSideBar] = useState(false);
+
   const isAutoMilkEntryEnabled = useMemo(
     () => milkDefaults?.auto_entry_enabled || false,
-    [milkDefaults]
+    [milkDefaults],
   );
 
   useEffect(() => {
@@ -67,7 +70,7 @@ export default function HomePage() {
     try {
       setMilkEntriesLoading(true);
       const yearMonth = `${selectedDate.getFullYear()}-${String(
-        selectedDate.getMonth() + 1
+        selectedDate.getMonth() + 1,
       ).padStart(2, "0")}`;
       setEntries([]);
       const resp = await getAllMilkEntries(yearMonth);
@@ -158,74 +161,85 @@ export default function HomePage() {
     }
   };
 
+  const handleSettingClick = () => {
+    setShowSideBar(true);
+  }
+
   return (
     <main className={`p-4 ${poppins.className}`}>
-      {showPinModal && (
-        <PinModal
-          onSuccess={() => {
-            setShowPinModal(false);
-            loadHomePageData();
-          }}
-        />
-      )}
-      {showPleaseWaitModal && (
-        <PleaseWaitModal onClose={() => setShowPleaseWaitModal(false)} />
-      )}
-      <h1 className={`text-2xl font-bold mb-4 text-center`}>
-        🥛Milk Tracker🥛
-      </h1>
-      <div className="flex items-center gap-4 mb-4">
-        <Link
-          href="/add"
-          className="
+      <div>
+        {
+          showSideBar ?
+          <SideBar /> : null
+        }
+        {showPinModal && (
+          <PinModal
+            onSuccess={() => {
+              setShowPinModal(false);
+              loadHomePageData();
+            }}
+          />
+        )}
+        {showPleaseWaitModal && (
+          <PleaseWaitModal onClose={() => setShowPleaseWaitModal(false)} />
+        )}
+        <h1 className={`text-2xl font-bold mb-4 text-center`}>
+          🥛Milk Tracker🥛
+        </h1>
+        <div className="flex items-center justify-between gap-4 mb-4">
+          <Link
+            href="/add"
+            className="
           btn-responsive
           hover:bg-blue-600 hover:text-white text-black border border-gray-300 min-w-[5rem] rounded-[6px]"
-        >
-          <Plus className="btn-icon w-4 h-4 inline" /> Add Entry
-        </Link>
-      </div>
-      {milkDefaults ? (
-        <div className="flex items-center gap-4 mb-4">
-          <Button
-            variant="normal"
-            className="hover:bg-blue-600 hover:text-white text-black border border-gray-300"
-            onClick={handlePlayPauseBtnClick}
-            loading={playPauseBtnLoading}
-            disabled={playPauseBtnLoading}
           >
-            {isAutoMilkEntryEnabled ? (
-              <div className="flex justify-center items-center gap-2 flex-wrap">
-                <CirclePause className="w-4 h-4" />
-                <span>Deactivate Auto Milk Entry</span>
-              </div>
-            ) : (
-              <div className="flex justify-center items-center gap-2 flex-wrap">
-                <Play className="w-4 h-4" />{" "}
-                <span>Activate Auto Milk Entry</span>
-              </div>
-            )}
-          </Button>
+            <Plus className="btn-icon w-4 h-4 inline" /> Add Entry
+          </Link>
+          <Button onClick={handleSettingClick}>Settings</Button>
         </div>
-      ) : (
-        <Shimmer width="220px" height="50px" />
-      )}
-      <Summary />
-      <div className="p-2 rounded-[6px] flex items-center justify-between flex-wrap border border-gray-300 gap-2 mt-4 max-w-[324px]">
-        <div className="text-sm font-medium">Month :</div>
-        <DatePicker
-          selected={selectedDate}
-          onChange={(date: Date | null) => date && setSelectedDate(date)}
-          dateFormat="MMMM yyyy"
-          showMonthYearPicker
-          className="p-1 border border-gray-300 rounded-[6px] cursor-pointer text-sm"
-        />
-      </div>
-      <div className="mt-4 w-full overflow-x-auto max-w-full overflow-hidden">
-        <MilkTable
-          entries={entries}
-          onDelete={handleDelete}
-          isLoading={milkEntriesLoading}
-        />
+        {milkDefaults ? (
+          <div className="flex items-center gap-4 mb-4">
+            <Button
+              variant="normal"
+              className="hover:bg-blue-600 hover:text-white text-black border border-gray-300"
+              onClick={handlePlayPauseBtnClick}
+              loading={playPauseBtnLoading}
+              disabled={playPauseBtnLoading}
+            >
+              {isAutoMilkEntryEnabled ? (
+                <div className="flex justify-center items-center gap-2 flex-wrap">
+                  <CirclePause className="w-4 h-4" />
+                  <span>Deactivate Auto Milk Entry</span>
+                </div>
+              ) : (
+                <div className="flex justify-center items-center gap-2 flex-wrap">
+                  <Play className="w-4 h-4" />{" "}
+                  <span>Activate Auto Milk Entry</span>
+                </div>
+              )}
+            </Button>
+          </div>
+        ) : (
+          <Shimmer width="220px" height="50px" />
+        )}
+        <Summary />
+        <div className="p-2 rounded-[6px] flex items-center justify-between flex-wrap border border-gray-300 gap-2 mt-4 max-w-[324px]">
+          <div className="text-sm font-medium">Month :</div>
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date: Date | null) => date && setSelectedDate(date)}
+            dateFormat="MMMM yyyy"
+            showMonthYearPicker
+            className="p-1 border border-gray-300 rounded-[6px] cursor-pointer text-sm"
+          />
+        </div>
+        <div className="mt-4 w-full overflow-x-auto max-w-full overflow-hidden">
+          <MilkTable
+            entries={entries}
+            onDelete={handleDelete}
+            isLoading={milkEntriesLoading}
+          />
+        </div>
       </div>
     </main>
   );
